@@ -58,8 +58,6 @@ const Main = () => {
                         />
                         <button onClick={handleShorten}>Shorten It!</button>
                         {error && <p className="error">{error}</p>}
-
-                        {error && <p className="error">{error}</p>}
                     </div>
                     {shortenedLink && (
                         <div className="shortened-link">
