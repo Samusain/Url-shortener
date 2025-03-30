@@ -6,16 +6,17 @@ import { useState } from 'react';
 
 const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
+    console.log(showMenu);
 
     return ( 
         <div className="header">
             <header>
+                <img src={Img1} alt="logo" />
                 <nav className={`nav-menu ${showMenu ? 'drop-menu' : ''}`} id='Menu'>
-                    <img src={Img1} alt="logo" />
                     <ul>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Resources</a></li>
+                        <li><a href="/">Features</a></li>
+                        <li><a href="/">Pricing</a></li>
+                        <li><a href="/">Resources</a></li>
                     </ul>
                     <div className="logs">
                         <button className="login">Login</button>

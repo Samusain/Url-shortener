@@ -3,9 +3,37 @@ import Img2 from '../../Images/illustration-working.svg';
 import Img3 from '../../Images/icon-brand-recognition.svg';
 import Img4 from '../../Images/icon-detailed-records.svg';
 import Img5 from '../../Images/icon-fully-customizable.svg';
-
+import { useState } from 'react';
 
 const Main = () => {
+    const [inputValue, setInputValue] = useState('');
+    const [shortenedLink, setShortenedLink] = useState('');
+    const [error, setError] = useState('');
+    
+    const handleShorten = async () => {
+        const Link = document.querySelector('input#link');
+        
+        if (!inputValue) {
+            Link.classList.add('red');
+            setError('Please add a link');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${inputValue}`);
+            const data = await response.json();
+
+            if (data.ok) {
+                setShortenedLink(data.result.full_short_link);
+                setError('');
+            } else {
+                setError('Failed to shorten the link. Please try again.');
+            }
+        } catch (err) {
+            setError('An error occurred. Please try again later.');
+        }
+    };
+
     return ( 
         <div className="main">
             <main>
@@ -19,12 +47,29 @@ const Main = () => {
                     <img src={Img2} alt="illustration-working"/>
                 </section>
 
-
                 <section className="statistic">
                     <div className="shorten">
-                        <input type="text" placeholder="Shorten a link here..."/>
-                        <button>Shorten It!</button>
+                        <input 
+                            type="text" 
+                            placeholder="Shorten a link here..." 
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            id='link'
+                        />
+                        <button onClick={handleShorten}>Shorten It!</button>
+                        {error && <p className="error">{error}</p>}
+
+                        {error && <p className="error">{error}</p>}
                     </div>
+                    {shortenedLink && (
+                        <div className="shortened-link">
+                            <p>{inputValue}</p>
+                            <a href={shortenedLink} target="_blank" rel="noopener noreferrer">{shortenedLink}</a>
+                            <button onClick={() => navigator.clipboard.writeText(shortenedLink)}>Copy</button>
+
+                            <button>Copy</button>
+                        </div>
+                    )}
                     <article className="stats">
                         <h2>Advanced Statistics</h2>
                         <p>Track how your links are performing across the web with our 
